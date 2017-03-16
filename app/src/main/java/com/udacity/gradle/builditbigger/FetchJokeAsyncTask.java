@@ -46,9 +46,8 @@ public class FetchJokeAsyncTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String joke) {
-        if (callback == null)
-            super.onPostExecute(joke);
-
-        callback.onJokeReceived(joke);
+        if (callback != null)
+            callback.onJokeReceived(joke);
+        super.onPostExecute(joke);
     }
 }

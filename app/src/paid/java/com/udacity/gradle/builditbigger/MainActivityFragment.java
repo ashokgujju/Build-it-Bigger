@@ -14,6 +14,7 @@ import com.ashok.jokedisplay.JokeActivity;
 public class MainActivityFragment extends Fragment implements FetchJokeTaskCallback {
 
     private ProgressBar mProgressBar;
+
     public MainActivityFragment() {
     }
 

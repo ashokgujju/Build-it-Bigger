@@ -19,6 +19,7 @@ public class MainActivityFragment extends Fragment implements FetchJokeTaskCallb
     private InterstitialAd mInterstitialAd;
     private AdRequest adRequest;
     private String joke;
+
     private ProgressBar mProgressBar;
 
     public MainActivityFragment() {
