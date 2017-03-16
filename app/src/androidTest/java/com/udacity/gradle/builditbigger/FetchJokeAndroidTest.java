@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by ashok on 15/3/17.

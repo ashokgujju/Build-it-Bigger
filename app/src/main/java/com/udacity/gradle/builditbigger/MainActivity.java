@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 return myApiService.getJoke().execute().getData();
             } catch (IOException e) {
+                e.printStackTrace();
                 return null;
             }
         }
