@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.ashok.jokedisplay.JokeActivity;
 import com.google.android.gms.ads.AdListener;
@@ -13,10 +15,11 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
-public class MainActivityFragment extends Fragment implements MainInterface {
+public class MainActivityFragment extends Fragment implements FetchJokeTaskCallback {
     private InterstitialAd mInterstitialAd;
     private AdRequest adRequest;
     private String joke;
+    private ProgressBar mProgressBar;
 
     public MainActivityFragment() {
     }
@@ -25,6 +28,15 @@ public class MainActivityFragment extends Fragment implements MainInterface {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
+        mProgressBar = (ProgressBar) root.findViewById(R.id.progressBar);
+        root.findViewById(R.id.tellJoke).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mProgressBar.setVisibility(View.VISIBLE);
+                new FetchJokeAsyncTask(MainActivityFragment.this).execute();
+            }
+        });
+
         AdView mAdView = (AdView) root.findViewById(R.id.adView);
 
         adRequest = new AdRequest.Builder()
@@ -48,12 +60,17 @@ public class MainActivityFragment extends Fragment implements MainInterface {
     }
 
     @Override
-    public void displayJoke(String joke) {
-        this.joke = joke;
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
+    public void onJokeReceived(String joke) {
+        mProgressBar.setVisibility(View.GONE);
+        if (joke != null) {
+            this.joke = joke;
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            } else {
+                showJoke();
+            }
         } else {
-            showJoke();
+            Toast.makeText(getContext(), R.string.error_msg, Toast.LENGTH_LONG).show();
         }
     }
 
